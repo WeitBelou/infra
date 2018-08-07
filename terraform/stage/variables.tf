@@ -31,7 +31,7 @@ variable "app_disk_image" {
 
 variable "db_disk_image" {
   description = "Image for app"
-  default     = "reddit-app-base"
+  default     = "reddit-db-base"
 }
 
 variable "allowed_source_ranges" {

@@ -20,3 +20,7 @@ variable "app_disk_image" {
   description = "Image for app"
   default     = "reddit-app-base"
 }
+
+variable "db_url" {
+  description = "URL of database"
+}

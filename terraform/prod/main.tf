@@ -10,6 +10,7 @@ module "app" {
   app_disk_image       = "${var.app_disk_image}"
   ssh_public_key_file  = "${var.ssh_public_key_file}"
   ssh_private_key_file = "${var.ssh_private_key_file}"
+  db_url               = "${module.db.db_external_ip}"
 }
 
 module "db" {
