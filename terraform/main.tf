@@ -20,4 +20,16 @@ resource "google_compute_instance" "app" {
     network = "default"
     access_config {}
   }
+  tags = ["reddit-app"]
+}
+
+resource "google_compute_firewall" "farewall_puma" {
+  name = "allow-puma-default"
+  network = "default"
+  allow {
+    protocol = "tcp"
+    ports = ["9292"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+  target_tags = ["reddit-app"]
 }
