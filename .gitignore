@@ -5,5 +5,8 @@
 *.tfvars
 .terraform/
 
-$ Credentials
+# Packer variables.json
+packer/variables.json
+
+# Credentials
 terraform/account.json
