@@ -1,9 +1,0 @@
-project = "example-132123"
-
-ssh_user = "user"
-
-ssh_private_key_file = "~/.ssh/id_rsa_user"
-
-ssh_public_key_file = "~/.ssh/id_rsa_user.pub"
-
-instances_count = 1

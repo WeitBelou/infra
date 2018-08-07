@@ -5,7 +5,7 @@ provider "google" {
 }
 
 module "app" {
-  source               = "modules/app"
+  source               = "../modules/app"
   zone                 = "${var.zone}"
   app_disk_image       = "${var.app_disk_image}"
   ssh_public_key_file  = "${var.ssh_public_key_file}"
@@ -13,12 +13,13 @@ module "app" {
 }
 
 module "db" {
-  source              = "modules/db"
+  source              = "../modules/db"
   zone                = "${var.zone}"
   db_disk_image       = "${var.db_disk_image}"
   ssh_public_key_file = "${var.ssh_public_key_file}"
 }
 
 module "vpc" {
-  source = "modules/vpc"
+  source        = "../modules/vpc"
+  source_ranges = "${var.allowed_source_ranges}"
 }

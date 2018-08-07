@@ -33,3 +33,8 @@ variable "db_disk_image" {
   description = "Image for app"
   default     = "reddit-app-base"
 }
+
+variable "allowed_source_ranges" {
+  type        = "list"
+  description = "Allowed source IPs"
+}
