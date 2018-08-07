@@ -4,65 +4,17 @@ provider "google" {
   region  = "${var.region}"
 }
 
-resource "google_compute_instance" "app" {
-  name         = "reddit-app-${count.index}"
-  machine_type = "g1-small"
-  zone         = "${var.zone}"
-  count        = "${var.instances_count}"
-
-  tags = [
-    "reddit-app",
-  ]
-
-  metadata {
-    ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_file)}"
-  }
-
-  boot_disk {
-    initialize_params {
-      image = "${var.disk_image}"
-    }
-  }
-
-  connection {
-    type        = "ssh"
-    user        = "${var.ssh_user}"
-    agent       = false
-    private_key = "${file(var.ssh_private_key_file)}"
-  }
-
-  provisioner "file" {
-    source      = "files/puma.service"
-    destination = "/tmp/puma.service"
-  }
-
-  provisioner "remote-exec" {
-    script = "files/deploy.sh"
-  }
-
-  network_interface {
-    network       = "default"
-    access_config = {}
-  }
+module "app" {
+  source               = "modules/app"
+  zone                 = "${var.zone}"
+  app_disk_image       = "${var.app_disk_image}"
+  ssh_public_key_file  = "${var.ssh_public_key_file}"
+  ssh_private_key_file = "${var.ssh_private_key_file}"
 }
 
-resource "google_compute_firewall" "farewall_puma" {
-  name    = "allow-puma-default"
-  network = "default"
-
-  allow {
-    protocol = "tcp"
-
-    ports = [
-      "9292",
-    ]
-  }
-
-  source_ranges = [
-    "0.0.0.0/0",
-  ]
-
-  target_tags = [
-    "reddit-app",
-  ]
+module "db" {
+  source              = "modules/db"
+  zone                = "${var.zone}"
+  db_disk_image       = "${var.db_disk_image}"
+  ssh_public_key_file = "${var.ssh_public_key_file}"
 }
