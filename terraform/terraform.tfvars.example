@@ -1,0 +1,3 @@
+project = "example-12345"
+ssh-user = "example"
+ssh-key-file = "~/.ssh/example.pub"
