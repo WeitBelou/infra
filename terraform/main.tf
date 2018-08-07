@@ -18,3 +18,7 @@ module "db" {
   db_disk_image       = "${var.db_disk_image}"
   ssh_public_key_file = "${var.ssh_public_key_file}"
 }
+
+module "vpc" {
+  source = "modules/vpc"
+}
