@@ -1,35 +1,68 @@
 provider "google" {
   version = "1.4.0"
   project = "${var.project}"
-  region = "europe-west1"
+  region  = "${var.region}"
 }
 
 resource "google_compute_instance" "app" {
-  name = "reddit-app"
+  name         = "reddit-app"
   machine_type = "g1-small"
-  zone = "europe-west1-b"
+  zone         = "${var.zone}"
+  count        = "${var.instances_count}"
+
+  tags = [
+    "reddit-app",
+  ]
+
   metadata {
-    ssh-keys = "${var.ssh-user}:${file(var.ssh-key-file)}"
+    ssh-keys = "${var.ssh_user}:${file(var.ssh_public_key_file)}"
   }
-  boot_disk  {
+
+  boot_disk {
     initialize_params {
-      image = "reddit-base"
+      image = "${var.disk_image}"
     }
   }
-  network_interface {
-    network = "default"
-    access_config {}
+
+  connection {
+    type        = "ssh"
+    user        = "${var.ssh_user}"
+    agent       = false
+    private_key = "${file(var.ssh_private_key_file)}"
   }
-  tags = ["reddit-app"]
+
+  provisioner "file" {
+    source      = "files/puma.service"
+    destination = "/tmp/puma.service"
+  }
+
+  provisioner "remote-exec" {
+    script = "files/deploy.sh"
+  }
+
+  network_interface {
+    network       = "default"
+    access_config = {}
+  }
 }
 
 resource "google_compute_firewall" "farewall_puma" {
-  name = "allow-puma-default"
+  name    = "allow-puma-default"
   network = "default"
+
   allow {
     protocol = "tcp"
-    ports = ["9292"]
+
+    ports = [
+      "9292",
+    ]
   }
-  source_ranges = ["0.0.0.0/0"]
-  target_tags = ["reddit-app"]
+
+  source_ranges = [
+    "0.0.0.0/0",
+  ]
+
+  target_tags = [
+    "reddit-app",
+  ]
 }
