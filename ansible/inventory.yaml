@@ -1,0 +1,12 @@
+---
+all:
+  hosts:
+    appserver:
+      ansible_host: 35.205.137.47
+      ansible_user: appuser
+      ansible_private_key_file: ~/.ssh/id_rsa_appuser
+    dbserver:
+      ansible_host: 35.240.122.220
+      ansible_user: appuser
+      ansible_private_key_file: ~/.ssh/id_rsa_appuser
+...
