@@ -1,8 +1,10 @@
----
 all:
-  hosts:
-    appserver:
-      ansible_host: 35.205.137.47
-    dbserver:
-      ansible_host: 35.240.122.220
-...
+  children:
+    app:
+      hosts:
+        appserver:
+          ansible_host: 35.205.137.47
+    db:
+      hosts:
+        dbserver:
+          ansible_host: 35.240.122.220
