@@ -13,6 +13,7 @@ terraform/account.json
 
 # Ansible
 *.retry
+vault.key
 
 # Ansible roles
 jdauphant.nginx
