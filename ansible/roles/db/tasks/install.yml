@@ -8,6 +8,7 @@
 - name: Add mongo repo
   apt_repository:
     repo: deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse
+
     state: present
     filename: mongodb-org-3.2
   tags: install
@@ -15,12 +16,12 @@
 - name: Install mongodb
   apt:
     name: mongodb-org
-    state: latest
+    state: present
   tags: install
 
 - name: Enable service
   systemd:
     name: mongod
-    enabled: yes
+    enabled: true
     state: started
   tags: install

@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Ivan Kosolapov
   description: Simple role for providing Mongo DB
